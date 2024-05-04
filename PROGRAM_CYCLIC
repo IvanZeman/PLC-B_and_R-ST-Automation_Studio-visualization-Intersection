@@ -1,0 +1,88 @@
+
+PROGRAM _CYCLIC
+	
+	(* môj kód *) 
+	CASE STAV OF
+		
+	
+		STAV_CERVENA:                    (* ak je STAV_CERVENA zapne sa Time Delay On a po 6 sekundách prejde do STAV_CERVENA_ORANZOVA *)               		
+			CERVENA_LED := TRUE;
+			ORANZOVA_LED := FALSE;
+			ZELENA_LED := FALSE;
+			
+			ZELENA_LED_2 := TRUE;
+			ORANZOVA_LED_2 := FALSE;
+			CERVENA_LED_2 := FALSE;			
+		
+			CHODCI_1 := TRUE;
+			CHODCI_2 := FALSE;
+			
+			CASOVAC(IN := TRUE, PT := T#6s);
+			IF CASOVAC.Q = TRUE THEN
+				STAV := STAV_CERVENA_ORANZOVA;
+				CASOVAC(IN := FALSE, PT := T#6s);
+			END_IF	
+		
+			
+		STAV_CERVENA_ORANZOVA:			(* ak je STAV_CERVENA_ORANZOVA zapne sa Time Delay On a po 2 sekundách prejde do STAV_ZELENA *) 
+			CERVENA_LED := TRUE;
+			ORANZOVA_LED := TRUE;
+			ZELENA_LED := FALSE;
+			
+			ZELENA_LED_2 := FALSE;
+			ORANZOVA_LED_2 := TRUE;
+			CERVENA_LED_2 := FALSE;	
+			
+			CHODCI_1 := FALSE;
+			CHODCI_2 := FALSE;
+			
+			CASOVAC(IN := TRUE, PT := T#2s);
+			IF CASOVAC.Q = TRUE THEN
+				STAV := STAV_ZELENA;
+				CASOVAC(IN := FALSE, PT := T#2s);
+			END_IF	
+		
+			
+		STAV_ORANZOVA:					(* ak je STAV_ORANZOVA zapne sa Time Delay On a po 2 sekundách prejde do STAV_CERVENA *) 
+			CERVENA_LED := FALSE;
+			ORANZOVA_LED := TRUE;
+			ZELENA_LED := FALSE;
+			
+			ZELENA_LED_2 := FALSE;
+			ORANZOVA_LED_2 := TRUE;
+			CERVENA_LED_2 := TRUE;
+			
+			CHODCI_1 := FALSE;
+			CHODCI_2 := FALSE;
+			
+			CHODCI_1 := FALSE;
+			CHODCI_2 := FALSE;
+			
+			CASOVAC(IN := TRUE, PT := T#2s);
+			IF CASOVAC.Q = TRUE THEN
+				STAV := STAV_CERVENA;
+				CASOVAC(IN := FALSE, PT := T#2s);
+			END_IF	
+			
+			
+		STAV_ZELENA:					(* ak je STAV_ZELENA zapne sa Time Delay On a po 6 sekundách prejde do STAV_ORANZOVA *) 
+			CERVENA_LED := FALSE;
+			ORANZOVA_LED := FALSE;
+			ZELENA_LED := TRUE;
+			
+			ZELENA_LED_2 := FALSE;
+			ORANZOVA_LED_2 := FALSE;
+			CERVENA_LED_2 := TRUE;
+			
+			CHODCI_1 := FALSE;
+			CHODCI_2 := TRUE;
+			
+			CASOVAC(IN := TRUE, PT := T#6s);
+			IF CASOVAC.Q = TRUE THEN
+				STAV := STAV_ORANZOVA;
+				CASOVAC(IN := FALSE, PT := T#6s);
+			END_IF	
+		
+	END_CASE
+	
+END_PROGRAM
